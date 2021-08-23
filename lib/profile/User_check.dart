@@ -2,6 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
+import 'package:testconnection/services/allservices.dart';
 
 import 'package:testconnection/sessionstore/sessionstore.dart';
 
@@ -79,6 +80,8 @@ class _UserNameCheckState extends State<UserNameCheck> {
                 _sessionStore.Setname(name);
                 //print(docID);
                 //db.doc(uid).collection('uid').add(data);
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => Allservices()));
               }
             },
             child: Container(

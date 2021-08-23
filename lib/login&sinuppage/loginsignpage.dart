@@ -4,6 +4,8 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:testconnection/Screen_loader/SignupLOADING.dart';
+import 'package:testconnection/Screen_loader/loginLOADER.dart';
 import 'package:testconnection/authfile/auth.dart';
 import 'package:testconnection/forgetpassword.dart';
 import 'package:testconnection/profile/profiledatahandler.dart';
@@ -249,23 +251,13 @@ class _LoginSignUpState extends State<LoginSignUp> {
                         print("yes");
                         if (_keylogin.currentState!.validate()) {
                           print("s yes");
-//=========================login with authservice ====================================
-                          String uid = await _authResult.Login(email, password);
-                          print(uid);
-                          if (uid != null) {
-                            Future<SharedPreferences> _session =
-                                SharedPreferences.getInstance();
-                            final SharedPreferences session = await _session;
-                            session.setString('userid', uid);
-                            dynamic user = await session.getString('userid');
-                            print("here :: " + user);
-                          }
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ProfileDataHandler()));
-                        } else {
-                          print("not working");
+                                  builder: (context) => LoginPageLoader(
+                                        email: email,
+                                        password: password,
+                                      )));
                         }
                       },
                     )),
@@ -497,33 +489,12 @@ class _LoginSignUpState extends State<LoginSignUp> {
 //=========================write your details in firebase=================
                       onPressed: () async {
                         if (_keySign.currentState!.validate()) {
-                          String uid = await _authResult.CreateID(
-                              signemail, signpassword);
-                          print(uid);
-                          if (uid.isNotEmpty) {
-                            String name = "null", profileurl = 'null', docID;
-
-                            CollectionReference db = FirebaseFirestore.instance
-                                .collection('Profile');
-                            docID = db.doc(uid).collection('uid').doc().id;
-                            print(docID);
-                            var data = {
-                              'Name': name,
-                              'Profileurl': profileurl,
-                              'Uid': uid,
-                              'Email': signemail,
-                              'docid': docID
-                            };
-                            db
-                                .doc(uid)
-                                .collection('uid')
-                                .doc('userinfo')
-                                .set(data);
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginSignUp()));
-                          }
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignupLoadingScreen(
+                                      signemail: signemail,
+                                      signpassword: signpassword)));
                         } else {
                           autovalsign = true;
                         }

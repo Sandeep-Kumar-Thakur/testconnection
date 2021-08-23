@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:testconnection/login&sinuppage/loginsignpage.dart';
 import 'package:testconnection/services/homepage.dart';
 import 'package:testconnection/services/profilepage.dart';
 import 'package:testconnection/services/uploadstatus.dart';
@@ -23,6 +24,8 @@ class _AllservicesState extends State<Allservices> {
         SharedPreferences.getInstance();
     final SharedPreferences session = await _sharepreference;
     session.clear();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LoginSignUp()));
   }
 
   @override
@@ -59,7 +62,7 @@ class _AllservicesState extends State<Allservices> {
       bottomNavigationBar: AnimatedBottomNavigationBar(
         activeIndex: active_index,
         activeColor: Colors.white,
-        icons: [Icons.home, Icons.add, Icons.person],
+        icons: [Icons.home, Icons.add, Icons.person, Icons.logout],
         iconSize: 30,
         inactiveColor: Colors.white30,
         backgroundColor:
@@ -82,6 +85,8 @@ class _AllservicesState extends State<Allservices> {
               home = false;
               profile = true;
               uploaderpage = false;
+            } else {
+              Logout();
             }
           });
         },

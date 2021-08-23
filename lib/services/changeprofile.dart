@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:testconnection/Screen_loader/photo_upload_loader.dart';
 import 'package:testconnection/services/allservices.dart';
 import 'package:testconnection/sessionstore/sessionstore.dart';
 
@@ -94,28 +95,34 @@ class _ChangePhotoState extends State<ChangePhoto> {
                     print("photo");
 
                     print("photoupload");
-                    firebase_storage.Reference reference = firebase_storage
-                        .FirebaseStorage.instance
-                        .ref()
-                        .child(uid);
-                    UploadTask uploadTask = reference.putFile(imagefile);
-                    TaskSnapshot _snapshot = await uploadTask.snapshot;
-                    String Newprofilepic = await _snapshot.ref.getDownloadURL();
-                    print(Newprofilepic);
-                    // --------database updating---------------
-                    CollectionReference db =
-                        FirebaseFirestore.instance.collection('Profile');
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PhotoloaderScreenLoader(
+                                  image: imagefile,
+                                )));
+                    // firebase_storage.Reference reference = firebase_storage
+                    //     .FirebaseStorage.instance
+                    //     .ref()
+                    //     .child(uid);
+                    // UploadTask uploadTask = reference.putFile(imagefile);
+                    // TaskSnapshot _snapshot = await uploadTask.snapshot;
+                    // String Newprofilepic = await _snapshot.ref.getDownloadURL();
+                    // print(Newprofilepic);
+                    // // --------database updating---------------
+                    // CollectionReference db =
+                    //     FirebaseFirestore.instance.collection('Profile');
 
-                    var data = {
-                      'Name': name,
-                      'Profileurl': Newprofilepic,
-                      'Uid': uid,
-                      'Email': email,
-                    };
-                    db.doc(uid).collection('uid').doc('userinfo').set(data);
-                    _data.Setprofileurl(Newprofilepic);
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Allservices()));
+                    // var data = {
+                    //   'Name': name,
+                    //   'Profileurl': Newprofilepic,
+                    //   'Uid': uid,
+                    //   'Email': email,
+                    // };
+                    // db.doc(uid).collection('uid').doc('userinfo').set(data);
+                    // _data.Setprofileurl(Newprofilepic);
+                    // Navigator.pushReplacement(context,
+                    //     MaterialPageRoute(builder: (context) => Allservices()));
                   },
                   icon: Icon(
                     Icons.check,
