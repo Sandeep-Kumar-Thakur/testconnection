@@ -41,12 +41,16 @@ class _HomePageState extends State<HomePage> {
                   margin: EdgeInsets.only(left: 3, top: 4, bottom: 4),
                   child: Row(
                     children: [
+                      //---------user profile pic ----------
                       SizedBox(
                         height: 50,
                         width: 50,
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(25),
-                            child: Image.network(otherurl)),
+                            child: Image.network(
+                              otherurl,
+                              fit: BoxFit.cover,
+                            )),
                       ),
                       SizedBox(
                         width: 5,
@@ -80,7 +84,9 @@ class _HomePageState extends State<HomePage> {
           Container(
             child: SizedBox(
               width: 400,
-              child: Image.network(posturl),
+              child: Image.network(
+                posturl,
+              ),
             ),
           ),
           Container(

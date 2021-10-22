@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -42,6 +43,25 @@ class _SignupLoadingScreenState extends State<SignupLoadingScreen> {
       db.doc(uid).collection('uid').doc('userinfo').set(data);
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => LoginSignUp()));
+    } else {
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.error,
+        text: "Please check the Credential",
+        autoCloseDuration: Duration(seconds: 2),
+      );
+      // showDialog(
+      //     context: context,
+      //     builder: (context) => AlertDialog(
+      //           title: Text("Plz Enter valid data"),
+      //           actions: [
+      //             TextButton(
+      //                 onPressed: () {
+      //                   Navigator.pop(context);
+      //                 },
+      //                 child: Text("ok"))
+      //           ],
+      //         ));
     }
   }
 

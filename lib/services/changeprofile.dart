@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cool_alert/cool_alert.dart';
+
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -25,8 +27,8 @@ class _ChangePhotoState extends State<ChangePhoto> {
   late String uid;
   final date = DateTime.now();
 
-  Future Getphoto() async {
-    file = await ImagePicker.platform.getImage(source: ImageSource.camera);
+  Future Getphoto(ImageSource source) async {
+    file = await ImagePicker.platform.getImage(source: source);
     setState(() {
       if (file == null) {
       } else {
@@ -58,7 +60,37 @@ class _ChangePhotoState extends State<ChangePhoto> {
             children: [
               InkWell(
                 onTap: () async {
-                  Getphoto();
+                  showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            title: Text("Choose the source"),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Getphoto(ImageSource.camera);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Camara")),
+                              TextButton(
+                                  onPressed: () {
+                                    Getphoto(ImageSource.gallery);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Gallary")),
+                            ],
+                          ));
+                  // CoolAlert.show(
+                  //     context: context,
+                  //     type: CoolAlertType.loading,
+                  //     // cancelBtnTextStyle: TextStyle(color: Colors.red),
+                  //     // cancelBtnText: "Camara",
+                  //     // onCancelBtnTap: () {
+                  //     //   print("camra");
+                  //     // },
+                  //     confirmBtnText: "Gallary",
+                  //     onConfirmBtnTap: () {
+                  //       print("gallary");
+                  //     });
                 },
                 child: Container(
                   width: 300,
